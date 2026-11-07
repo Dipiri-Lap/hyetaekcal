@@ -13,4 +13,8 @@ const fs = require('fs/promises'); const path = require('path');
   await fs.cp(path.join(ROOT, 'dist'), path.join(__dirname, 'dist'), { recursive: true });
   console.log('built', JSON.stringify(res), 'bundle', bundle.created);
   if (res.missingImgs && res.missingImgs.length) console.log('MISSING IMAGES', res.missingImgs.join(', '));
+  if (process.env.VERCEL_ENV === 'production' && res.indexnowKey && res.recent && res.recent.length) {
+    const host = new URL(res.baseUrl).host; const body = JSON.stringify({ host, key: res.indexnowKey, keyLocation: res.baseUrl + '/' + res.indexnowKey + '.txt', urlList: res.recent.concat([res.baseUrl + '/', res.baseUrl + '/calendar/']) });
+    for (const ep of ['https://api.indexnow.org/indexnow', 'https://searchadvisor.naver.com/indexnow']) { try { const r = await fetch(ep, { method: 'POST', headers: { 'content-type': 'application/json; charset=utf-8' }, body }); console.log('indexnow', ep, r.status, res.recent.length); } catch (e) { console.log('indexnow fail', ep, e.message); } }
+  }
 })().catch(e => { console.error(e); process.exit(1); });
