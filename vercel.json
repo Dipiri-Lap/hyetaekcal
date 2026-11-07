@@ -1,0 +1,18 @@
+{
+  "buildCommand": "node vercel-build.js",
+  "outputDirectory": "dist",
+  "installCommand": "echo skip",
+  "framework": null,
+  "trailingSlash": true,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    }
+  ]
+}
