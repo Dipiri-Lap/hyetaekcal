@@ -1,0 +1,12 @@
+name: scheduled-rebuild
+# Rebuilds the site at 07:00, 12:00, 18:00 KST so scheduled (future-dated) posts go live and D-day lists refresh.
+on:
+  schedule:
+    - cron: '0 22,3,9 * * *'
+  workflow_dispatch:
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel deploy hook
+        run: curl -s -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
