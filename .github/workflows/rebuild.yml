@@ -1,8 +1,8 @@
 name: scheduled-rebuild
-# Rebuilds the site at 07:00, 12:00, 18:00 KST so scheduled (future-dated) posts go live and D-day lists refresh.
+# Hourly rebuild (GitHub cron can be delayed) so scheduled posts go live close to their time and D-day lists refresh.
 on:
   schedule:
-    - cron: '0 22,3,9 * * *'
+    - cron: '5 * * * *'
   workflow_dispatch:
 jobs:
   rebuild:
